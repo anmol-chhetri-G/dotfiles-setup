@@ -1,0 +1,160 @@
+-- =================================================
+-- INIT.LUA — Modern Neovim Setup (Python/Rust/C)
+-- =================================================
+
+-- =======================================
+-- Bootstrap packer.nvim if not installed
+-- =======================================
+local fn = vim.fn
+local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+
+if fn.empty(fn.glob(install_path)) > 0 then
+  fn.system({
+    'git', 'clone', '--depth', '1',
+    'https://github.com/wbthomason/packer.nvim',
+    install_path
+  })
+  vim.cmd [[packadd packer.nvim]]
+end
+
+-- Autocommand: Reload config when saving this file
+vim.cmd [[
+  augroup packer_user_config
+    autocmd!
+    autocmd BufWritePost init.lua source <afile> | PackerSync
+  augroup end
+]]
+
+-- =======================================
+-- Plugin installation
+-- =======================================
+require('packer').startup(function(use)
+  -- Packer manages itself
+  use 'wbthomason/packer.nvim'
+
+  -- UI / Theme
+  use 'folke/tokyonight.nvim'
+  use 'nvim-tree/nvim-tree.lua'
+  use 'nvim-tree/nvim-web-devicons'
+  use 'nvim-lualine/lualine.nvim'
+
+  -- Code editing
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use 'neovim/nvim-lspconfig'
+  use 'williamboman/mason.nvim'
+  use 'williamboman/mason-lspconfig.nvim'
+
+  -- Autocomplete
+  use 'hrsh7th/nvim-cmp'
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-buffer'
+  use 'L3MON4D3/LuaSnip'
+
+  -- Git integration
+  use 'lewis6991/gitsigns.nvim'
+
+  -- Fuzzy finder
+  use 'nvim-telescope/telescope.nvim'
+  use 'nvim-lua/plenary.nvim'
+end)
+
+-- =======================================
+-- Basic settings
+-- =======================================
+vim.o.number = true
+vim.o.relativenumber = true
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true
+vim.o.smartindent = true
+vim.o.termguicolors = true
+vim.o.cursorline = true
+vim.g.mapleader = ' '
+
+-- =======================================
+-- Theme
+-- =======================================
+vim.cmd [[colorscheme tokyonight]]
+
+-- =======================================
+-- Nvim-tree (file explorer)
+-- =======================================
+vim.keymap.set('n', '<C-n>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
+require('nvim-tree').setup()
+
+-- =======================================
+-- Treesitter
+-- =======================================
+require('nvim-treesitter.configs').setup {
+  ensure_installed = { "python", "rust", "c", "lua", "bash", "json", "yaml" },
+  highlight = { enable = true },
+  indent = { enable = true },
+}
+
+-- =======================================
+-- Mason + LSP setup
+-- =======================================
+local mason_status, mason = pcall(require, 'mason')
+if mason_status then
+  mason.setup()
+end
+
+local mason_lsp_status, mason_lsp = pcall(require, 'mason-lspconfig')
+if mason_lsp_status then
+  mason_lsp.setup({
+    ensure_installed = { 'pyright', 'rust_analyzer', 'clangd' },
+  })
+end
+
+local lspconfig_status, lspconfig = pcall(require, 'lspconfig')
+if lspconfig_status then
+  lspconfig.pyright.setup{}
+  lspconfig.rust_analyzer.setup{}
+  lspconfig.clangd.setup{}
+end
+
+-- =======================================
+-- Autocomplete (nvim-cmp)
+-- =======================================
+local cmp_status, cmp = pcall(require, 'cmp')
+if cmp_status then
+  cmp.setup({
+    snippet = {
+      expand = function(args)
+        require('luasnip').lsp_expand(args.body)
+      end,
+    },
+    mapping = cmp.mapping.preset.insert({
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+      ['<Tab>'] = cmp.mapping.select_next_item(),
+      ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+    }),
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'buffer' },
+    }),
+  })
+end
+
+-- =======================================
+-- Lualine (status line)
+-- =======================================
+local lualine_status, lualine = pcall(require, 'lualine')
+if lualine_status then
+  lualine.setup()
+end
+
+-- =======================================
+-- Gitsigns
+-- =======================================
+local gitsigns_status, gitsigns = pcall(require, 'gitsigns')
+if gitsigns_status then
+  gitsigns.setup()
+end
+
+-- =======================================
+-- Telescope (fuzzy finder)
+-- =======================================
+vim.keymap.set('n', '<leader>ff', ':Telescope find_files<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>fg', ':Telescope live_grep<CR>', { noremap = true, silent = true })
+
