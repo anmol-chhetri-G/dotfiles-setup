@@ -1,0 +1,47 @@
+# Main Applications List
+# One package per line, comments start with #
+
+# Essential tools
+git
+base-devel
+curl
+wget
+unzip
+unrar
+p7zip
+
+# System utilities
+neofetch
+htop
+tmux
+
+# Shells and editors
+zsh
+vim
+nano
+nvim
+
+# Development
+python3
+python3-pip
+go
+
+# Applications
+obsidian
+wireshark
+#google-chrome-stable
+firefox
+localsend
+kitty
+smplayer
+vlc
+chromium
+code
+onlyoffice-bin
+
+# Security tools
+ffuf
+
+# Other
+#ventory
+tealdeer

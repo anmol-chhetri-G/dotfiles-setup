@@ -1,30 +1,46 @@
 #!/bin/bash
-# Colors for output
-GREEN='\033[1;32m'
-YELLOW='\033[1;33m'
-CYAN='\033[1;36m'
-NC='\033[0m' # No Color
+# =========================================
+# Main Setup Script
+# =========================================
 
-# start with update 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# ----------------------------------------
+# Source utilities and modules
+source "$SCRIPT_DIR/scripts/utils.sh"
+source "$SCRIPT_DIR/scripts/detect-system.sh"
+source "$SCRIPT_DIR/scripts/system-update.sh"
+source "$SCRIPT_DIR/scripts/install-apps.sh"
+source "$SCRIPT_DIR/scripts/setup-nvim.sh"
+
+# =========================================
+# Main execution
+# =========================================
+
+echo -e "${CYAN}╔════════════════════════════════════════╗${NC}"
+echo -e "${CYAN}║     Dotfiles Setup Script             ║${NC}"
+echo -e "${CYAN}╔════════════════════════════════════════╗${NC}"
+echo ""
+
+# Detect system
+detect_system
+
 # Update system
-# ----------------------------------------
-echo -e "${YELLOW}➡ Updating system packages...${NC}"
-sudo pacman -Syu --noconfirm
+if ask "Do you want to update the system?"; then
+    update_system
+fi
 
-MAIN_APPS=(
-	git base-devel neofetch htop curl wget vim nano tmux
-	zsh unzip unrar p7zip obsidian wireshark python3 go google-chrome 
-	firefox localsend kitty ffuf smplayer vlc vim nvim ventory
-	tealdeer chromium code onlyoffice-bin 
-	)
+# Install applications
+if ask "Do you want to install main applications?"; then
+    install_main_apps
+fi
 
-# Setup install
-echo -e "${GREEN}🔧 Starting system setup...${NC}"
+# Setup NeoVim
+if ask "Do you want to set up NeoVim config?"; then
+    setup_neovim
+fi
 
-echo "Installing Obsidian"
-sudo pacman -Syu --noconfirm "${MAIN_APPS[@]}"
-
-
-
+# Final message
+echo ""
+echo -e "${GREEN}╔════════════════════════════════════════╗${NC}"
+echo -e "${GREEN}║  ✅ Setup completed successfully!     ║${NC}"
+echo -e "${GREEN}╚════════════════════════════════════════╝${NC}"
