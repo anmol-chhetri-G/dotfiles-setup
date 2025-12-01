@@ -2,7 +2,7 @@
 
 # 🚀 Dotfiles Setup
 
-### *Automate Your Perfect Linux Development Environment*
+### *Automate Your Linux Environment*
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Shell](https://img.shields.io/badge/shell-bash-green.svg)](https://www.gnu.org/software/bash/)
