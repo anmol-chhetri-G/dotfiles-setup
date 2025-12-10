@@ -11,15 +11,10 @@ unrar
 p7zip
 
 # System utilities
-neofetch
 htop
 tmux
 
 # Shells and editors
-zsh
-vim
-nano
-nvim
 
 # Development
 python3
@@ -30,13 +25,11 @@ go
 obsidian
 wireshark
 #google-chrome-stable
-firefox
 localsend
 kitty
 smplayer
 vlc
 chromium
-code
 onlyoffice-bin
 
 # Security tools
