@@ -39,6 +39,14 @@ if ask "Do you want to set up NeoVim config?"; then
     setup_neovim
 fi
 
+
+# Optional Hyprland Setup
+read -p "Set up Hyprland environment? (y/n): " setup_hypr
+if [ "$setup_hypr" = "y" ]; then
+    source scripts/setup-hyprland.sh
+    setup_hyprland
+fi
+
 # Final message
 echo ""
 echo -e "${GREEN}╔════════════════════════════════════════╗${NC}"

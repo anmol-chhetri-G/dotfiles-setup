@@ -1,0 +1,12 @@
+# hyprland-apps.txt
+hyprland
+waybar
+rofi
+kitty
+wl-clipboard
+cliphist
+grim
+slurp
+hyprpaper
+wlsunset
+swaybg

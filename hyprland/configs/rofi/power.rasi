@@ -1,0 +1,24 @@
+configuration {
+    font: "JetBrainsMono Nerd Font 14";
+}
+
+window {
+    background-color: rgba(18, 18, 18, 0.95);
+    border-radius: 12px;
+    padding: 10px;
+}
+
+listview {
+    lines: 5;
+    scrollbar: false;
+}
+
+element {
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+
+element selected {
+    background-color: rgba(5, 126, 255, 0.3);
+    text-color: #4aaaff;
+}
