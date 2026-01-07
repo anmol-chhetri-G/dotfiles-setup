@@ -1,0 +1,70 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "spacing": 2,
+
+    "modules-left": [
+        "custom/arch_logo",
+        "hyprland/workspaces"
+    ],
+    "modules-center": [
+        "clock"
+    ],
+    "modules-right": [
+        "network",
+        "pulseaudio",
+        "battery",
+        "custom/power"
+    ],
+
+    "hyprland/workspaces": {
+        "format": "{name}",
+        "persistent-workspaces": {
+            "*": 5
+        }
+    },
+
+    "clock": {
+        "format": "{:%a, %d %b  %I:%M %p}",
+        "format-alt": "{:%Y-%m-%d %H:%M}"
+    },
+
+"network": {
+    "interface": ["wlp0s20f3", "enp68s0", "tun0", "tun1", "tun2"],
+    "format-wifi": "  {essid}",
+    "format-ethernet": " {ifname}: {ipaddr}",
+    "format-vpn": " {ifname}: {ipaddr}",
+    "format-disconnected": "󰖪 Offline",
+    "tooltip-format-wifi": "Wi-Fi: {essid} ({signalStrength}%)",
+    "tooltip-format-ethernet": "Ethernet: {ifname} → {ipaddr}",
+    "tooltip-format-vpn": "VPN: {ifname} → {ipaddr}",
+    "tooltip-format-disconnected": "No network",
+    "max-length": 28,
+    "on-click": "~/.config/waybar/scripts/wifi-menu.sh"
+},
+"pulseaudio": {
+    "format": "  {volume}%",
+    "format-muted": " Muted",
+    "format-icons": {
+        "default": ["", "", ""]
+    }
+},
+
+"battery": {
+    "format": "{capacity}% {icon}",
+    "format-icons": ["", "", "", "", ""]
+},
+
+    "custom/arch_logo": {
+        "format": "󰣇",
+        "on-click": "rofi -show drun",
+        "tooltip": false
+    },
+
+    "custom/power": {
+        "format": "",
+        "on-click": "~/.config/waybar/scripts/power-menu.sh",
+        "tooltip": "Shutdown / Reboot"
+    }
+}

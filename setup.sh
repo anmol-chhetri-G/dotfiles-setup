@@ -1,54 +1,58 @@
 #!/bin/bash
-# =========================================
-# Main Setup Script
-# =========================================
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
 
-# Source utilities and modules
-source "$SCRIPT_DIR/scripts/utils.sh"
-source "$SCRIPT_DIR/scripts/detect-system.sh"
-source "$SCRIPT_DIR/scripts/system-update.sh"
-source "$SCRIPT_DIR/scripts/install-apps.sh"
-source "$SCRIPT_DIR/scripts/setup-nvim.sh"
+echo -e "${BLUE}"
+echo "╔═══════════════════════════════════════╗"
+echo "║   Anmol's Dotfiles Setup Script      ║"
+echo "║   Arch Linux + Hyprland               ║"
+echo "╚═══════════════════════════════════════╝"
+echo -e "${NC}"
 
-# =========================================
-# Main execution
-# =========================================
+# Backup
+echo -e "${YELLOW}[BACKUP]${NC} Creating backup..."
+BACKUP_DIR="$HOME/.config-backup-$(date +%Y%m%d_%H%M%S)"
+mkdir -p "$BACKUP_DIR"
 
-echo -e "${CYAN}╔════════════════════════════════════════╗${NC}"
-echo -e "${CYAN}║     Dotfiles Setup Script             ║${NC}"
-echo -e "${CYAN}╔════════════════════════════════════════╗${NC}"
-echo ""
+for dir in hypr waybar alacritty kitty rofi nvim; do
+    if [ -d "$HOME/.config/$dir" ]; then
+        cp -r "$HOME/.config/$dir" "$BACKUP_DIR/"
+    fi
+done
 
-# Detect system
-detect_system
+echo -e "${GREEN}[SUCCESS]${NC} Backup: $BACKUP_DIR"
 
-# Update system
-if ask "Do you want to update the system?"; then
-    update_system
-fi
+# Copy configs
+echo -e "${YELLOW}[INSTALL]${NC} Installing configs..."
+cp -r .config/* "$HOME/.config/"
+mkdir -p "$HOME/.local/bin"
+cp -r .local/bin/* "$HOME/.local/bin/"
 
-# Install applications
-if ask "Do you want to install main applications?"; then
-    install_main_apps
-fi
+# Make scripts executable
+chmod +x "$HOME/.config/waybar/scripts/"*.sh
+chmod +x "$HOME/.local/bin/"*
 
-# Setup NeoVim
-if ask "Do you want to set up NeoVim config?"; then
-    setup_neovim
-fi
+# Setup default Waybar
+cd "$HOME/.config/waybar"
+ln -sf config-default.jsonc config.jsonc
+ln -sf style-default.css style.css
 
+echo -e "\n${GREEN}╔═══════════════════════════════════════╗"
+echo -e "║     Installation Complete! 🎉        ║"
+echo -e "╚═══════════════════════════════════════╝${NC}\n"
 
-# Optional Hyprland Setup
-read -p "Set up Hyprland environment? (y/n): " setup_hypr
-if [ "$setup_hypr" = "y" ]; then
-    source scripts/setup-hyprland.sh
-    setup_hyprland
-fi
+echo -e "${YELLOW}Next steps:${NC}"
+echo -e "1. Log out"
+echo -e "2. Select 'Hyprland' session"
+echo -e "3. Log in and enjoy!\n"
 
-# Final message
-echo ""
-echo -e "${GREEN}╔════════════════════════════════════════╗${NC}"
-echo -e "${GREEN}║  ✅ Setup completed successfully!     ║${NC}"
-echo -e "${GREEN}╚════════════════════════════════════════╝${NC}"
+echo -e "${BLUE}Key bindings:${NC}"
+echo -e "  Super + Return → Terminal"
+echo -e "  Super + R      → Launcher"
+echo -e "  Super + Z      → Toggle Waybar"
+echo -e "  Super + V      → Clipboard"

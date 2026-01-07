@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if pgrep -x "wlsunset" >/dev/null; then
+    killall wlsunset
+else
+    wlsunset -t 3200 -T 3300 -g 0.9 -l 27.7 -L 85.3 &
+fi
+

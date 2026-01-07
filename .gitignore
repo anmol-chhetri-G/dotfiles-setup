@@ -1,0 +1,28 @@
+# Logs and cache
+*.log
+*.cache
+*~
+.DS_Store
+
+# Backup files
+*.backup
+*.bak
+*.old
+*copy*
+
+# Temp files
+tmp/
+temp/
+cache/
+
+# Personal data
+*.key
+*.pem
+*.gpg
+
+# Node modules
+node_modules/
+
+# Vim swap files
+*.swp
+*.swo

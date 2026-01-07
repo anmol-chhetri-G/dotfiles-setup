@@ -1,0 +1,64 @@
+
+//@theme "/usr/share/rofi/themes/material.rasi"
+
+@theme "/usr/share/rofi/themes/material.rasi"
+
+/* Omarchy Rofi Theme — Clean, Iconic, Blue */
+/* Omarchy Rofi Theme */
+/* * {
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 14;
+    background-color: transparent;
+    color: #A8E0FF;
+}
+
+window {
+    background-color: #3E517A;
+    border-radius: 12px;
+    padding: 16px;
+    width: 800px;
+}
+
+inputbar {
+    padding: 10px 18px;
+    background-color: rgba(128, 150, 190, 0.2);
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+textbox {
+    background-color: transparent;
+    caret-color: #8AE1FC;
+}
+
+entry {
+    background-color: transparent;
+    color: #A8E0FF;
+}
+
+element {
+    padding: 10px 18px;
+    border-radius: 10px;
+    background-color: rgba(128, 150, 190, 0.15);
+    margin: 4px 0;
+}
+
+element selected {
+    background-color: #8AE1FC;
+    color: #3E517A;
+    font-weight: bold;
+}
+
+element-icon {
+    size: 24px;
+    padding: 0 8px;
+}
+
+element-text {
+    padding: 0 8px;
+}
+
+prompt {
+    color: #8AE1FC;
+    font-weight: bold;
+} */

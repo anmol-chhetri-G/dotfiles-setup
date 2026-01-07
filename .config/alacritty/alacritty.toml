@@ -1,0 +1,9 @@
+[font]
+size = 14.0
+
+# Optional: Force pure black if the theme isn't exactly #000000
+[colors.primary]
+background = '#000000'
+
+[general]
+import = ["~/.config/alacritty/themes/themes/oxocarbon.toml"]

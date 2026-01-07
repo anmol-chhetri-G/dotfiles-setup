@@ -1,0 +1,112 @@
+* {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 16px;          /* Base size: crisp on 1080p/1440p */
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+window#waybar {
+    background: rgba(10, 12, 16, 0.94);
+    color: #A2AEBB;
+    border: none;
+    /* height: 30px;             Optional: helps some compositors */
+}
+
+/* === Arch Logo — Balanced Size === */
+#custom-arch_logo {
+    padding: 0 14px;
+    font-size: 20px;          /* Slightly larger than text for emphasis */
+    color: #23B5D3;
+    opacity: 0.92;
+}
+
+#custom-arch_logo:hover {
+    color: #5AC8E6;
+    opacity: 1;
+}
+
+/* === Workspaces — Tight & Aligned === */
+#workspaces {
+    margin-left: 10px;
+    margin-right: 16px;
+}
+
+#workspaces button {
+    padding: 4px 6px;
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    margin: 0 2px;            /* Slightly more breathing room */
+    min-width: 28px;          /* Fits 1-9 perfectly */
+    background: transparent;
+    color: #6A7A9A;
+    font-weight: 500;
+    font-size: 15px;          /* Match base font */
+    border: 1px solid transparent;
+    border-radius: 2px;
+}
+
+#workspaces button:hover {
+    background: rgba(40, 50, 65, 0.35);
+    color: #B0C0D0;
+    border-color: rgba(80, 95, 120, 0.35);
+}
+
+#workspaces button.active,
+#workspaces button.focused {
+    background: #23B5D3;
+    color: #0a0c10;
+    font-weight: 700;
+    border: none;
+}
+
+/* === Clock — Focal Point === */
+#clock {
+    padding: 0 16px;
+    margin: 0 10px;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+/* Unified right-side modules — clean, aligned, consistent */
+#network, #pulseaudio, #battery {
+    padding: 2px 10px;           /* vertical padding for height consistency */
+    margin: 0 5px;
+    border-radius: 8px;
+    background: rgba(25, 30, 40, 0.45);
+    color: #ffffff;
+    font-family: "JetBrainsMono Nerd Font",monospace; /* enforce monospace */
+    font-size: 15px;
+    font-weight: 500;
+    min-width: 45px;
+         /* safe here — container-level */
+}
+
+/* Battery states */
+#battery.charging {
+    background: rgba(74, 222, 128, 0.25);
+    color: #4ade80;
+}
+#battery.warning:not(.charging) {
+    background: rgba(248, 133, 133, 0.25);
+    color: #f88585;
+}
+
+/* Muted audio */
+#pulseaudio.muted {
+    color: #980000;
+}
+
+/* === Power Button — Subtle but Clear === */
+#custom-power {
+    padding: 0 12px;
+    margin: 0 8px;
+    font-size: 18px;
+    color: #ce0f01;
+    opacity: 1;
+}
+
+#custom-power:hover {
+    color: #FF6B6B;
+    opacity: 1;
+}
