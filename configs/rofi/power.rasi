@@ -1,0 +1,125 @@
+/* ===================== */
+/* General Configuration */
+/* ===================== */
+configuration {
+    /* --- Relevance & Usability Logic --- */
+    modi: "drun";
+    show-icons: true;
+    display-drun: " ";
+    drun-display-format: "{name}";
+    matching: "fuzzy";      /* Makes search relevant even with typos */
+    sort: true;
+    sorting-method: "fzf";  /* Uses fzf-style sorting for best results */
+    disable-history: false;
+    
+    font: "JetBrainsMono Nerd Font 14";
+}
+
+/* ===================== */
+/* Window Settings       */
+/* ===================== */
+window {
+    width: 750px;           /* Wider layout as requested */
+    background-color: rgba(18, 18, 18, 0.95); /* Your custom dark glass */
+    border: 1px;
+    border-color: #4aaaff;  /* Added a thin blue border to match your selection */
+    border-radius: 12px;
+    padding: 10px;
+}
+
+mainbox {
+    background-color: transparent;
+    children: [ inputbar, listview ];
+}
+
+/* ===================== */
+/* Input Bar             */
+/* ===================== */
+inputbar {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    margin: 5px;
+    padding: 2px;
+    children: [ prompt, entry ];
+}
+
+prompt {
+    background-color: transparent;
+    padding: 10px;
+    text-color: #4aaaff;
+}
+
+entry {
+    background-color: transparent;
+    padding: 10px;
+    text-color: #ffffff;
+    placeholder: "Search Apps...";
+    placeholder-color: #666666;
+}
+
+/* ===================== */
+/* List Area             */
+/* ===================== */
+listview {
+    lines: 5;
+    columns: 1;             /* Set to 2 if you want to fill the width more */
+    scrollbar: false;
+    fixed-height: false;
+    padding: 5px;
+    background-color: transparent;
+}
+
+/* ===================== */
+/* Elements (Apps)       */
+/* ===================== */
+element {
+    padding: 8px 16px;
+    border-radius: 8px;
+    background-color: transparent;
+    text-color: #ffffff;
+    spacing: 12px;
+}
+
+/* Normal state */
+element normal.normal {
+    background-color: transparent;
+    text-color: #ffffff;
+}
+
+/* Alternate rows (THIS WAS YOUR ISSUE) */
+element alternate.normal {
+    background-color: transparent;
+    text-color: #ffffff;
+}
+
+element normal.active {
+    background-color: transparent;
+    text-color: #4aaaff;
+}
+
+element alternate.active {
+    background-color: transparent;
+    text-color: #4aaaff;
+}
+
+/* Your custom selection style */
+element selected.normal {
+    background-color: rgba(5, 126, 255, 0.3);
+    text-color: #4aaaff;
+}
+
+element selected.active {
+    background-color: rgba(5, 126, 255, 0.3);
+    text-color: #4aaaff;
+}
+
+element-icon {
+    size: 32px;
+    background-color: transparent;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+    vertical-align: 0.5;
+}

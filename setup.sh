@@ -7,52 +7,62 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
+DOTFILES_DIR="$HOME/dotfiles-setup"
+
 echo -e "${BLUE}"
 echo "╔═══════════════════════════════════════╗"
-echo "║   Anmol's Dotfiles Setup Script      ║"
-echo "║   Arch Linux + Hyprland               ║"
+echo "║   Anmol's Dotfiles Setup Script       ║"
+echo "║   Arch Linux + Hyprland + Noctalia    ║"
 echo "╚═══════════════════════════════════════╝"
 echo -e "${NC}"
 
-# Backup
-echo -e "${YELLOW}[BACKUP]${NC} Creating backup..."
+# 1. Backup Existing Configs
+echo -e "${YELLOW}[BACKUP]${NC} Creating backup of existing configs..."
 BACKUP_DIR="$HOME/.config-backup-$(date +%Y%m%d_%H%M%S)"
 mkdir -p "$BACKUP_DIR"
 
-for dir in hypr waybar alacritty kitty rofi nvim; do
-    if [ -d "$HOME/.config/$dir" ]; then
-        cp -r "$HOME/.config/$dir" "$BACKUP_DIR/"
+# Backup common dirs and shell files
+for item in rofi noctalia hypr nvim .zshrc; do
+    if [ -e "$HOME/$item" ]; then
+        cp -rf "$HOME/$item" "$BACKUP_DIR/"
+    elif [ -e "$HOME/.config/$item" ]; then
+        cp -rf "$HOME/.config/$item" "$BACKUP_DIR/"
     fi
 done
+echo -e "${GREEN}[SUCCESS]${NC} Backup created at: $BACKUP_DIR"
 
-echo -e "${GREEN}[SUCCESS]${NC} Backup: $BACKUP_DIR"
+# 2. Link Configs (The "Safe" Way)
+echo -e "${YELLOW}[INSTALL]${NC} Linking configurations..."
 
-# Copy configs
-echo -e "${YELLOW}[INSTALL]${NC} Installing configs..."
-cp -r .config/* "$HOME/.config/"
+# Create necessary directories
+mkdir -p "$HOME/.config"
 mkdir -p "$HOME/.local/bin"
-cp -r .local/bin/* "$HOME/.local/bin/"
 
-# Make scripts executable
-chmod +x "$HOME/.config/waybar/scripts/"*.sh
-chmod +x "$HOME/.local/bin/"*
+# Link Noctalia
+echo "Configuring Noctalia..."
+ln -sfn "$DOTFILES_DIR/configs/noctalia" "$HOME/.config/noctalia"
 
-# Setup default Waybar
-cd "$HOME/.config/waybar"
-ln -sf config-default.jsonc config.jsonc
-ln -sf style-default.css style.css
+# Link Rofi
+echo "Configuring Rofi..."
+ln -sfn "$DOTFILES_DIR/configs/rofi" "$HOME/.config/rofi"
+
+# Link Shell (.zshrc)
+echo "Configuring Shell..."
+ln -sf "$DOTFILES_DIR/configs/shell/.zshrc" "$HOME/.zshrc"
+
+# Link Wallpapers
+echo "Setting up wallpapers..."
+mkdir -p "$HOME/Pictures"
+ln -sfn "$DOTFILES_DIR/Pictures/wallpapers" "$HOME/Pictures/wallpapers"
+
+# 3. Permissions
+echo -e "${YELLOW}[POST-INSTALL]${NC} Setting permissions..."
+find "$DOTFILES_DIR/scripts/" -type f -name "*.sh" -exec chmod +x {} \;
 
 echo -e "\n${GREEN}╔═══════════════════════════════════════╗"
-echo -e "║     Installation Complete! 🎉        ║"
+echo -e "║      Installation Complete! 🎉        ║"
 echo -e "╚═══════════════════════════════════════╝${NC}\n"
 
 echo -e "${YELLOW}Next steps:${NC}"
-echo -e "1. Log out"
-echo -e "2. Select 'Hyprland' session"
-echo -e "3. Log in and enjoy!\n"
-
-echo -e "${BLUE}Key bindings:${NC}"
-echo -e "  Super + Return → Terminal"
-echo -e "  Super + R      → Launcher"
-echo -e "  Super + Z      → Toggle Waybar"
-echo -e "  Super + V      → Clipboard"
+echo "1. Source your shell: source ~/.zshrc"
+echo "2. Restart your compositor if needed."
