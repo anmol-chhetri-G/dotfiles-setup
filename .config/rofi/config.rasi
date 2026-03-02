@@ -1,64 +1,121 @@
-
 //@theme "/usr/share/rofi/themes/material.rasi"
 
-@theme "/usr/share/rofi/themes/material.rasi"
-
-/* Omarchy Rofi Theme — Clean, Iconic, Blue */
-/* Omarchy Rofi Theme */
-/* * {
-    font-family: "JetBrainsMono Nerd Font";
-    font-size: 14;
-    background-color: transparent;
-    color: #A8E0FF;
+configuration {
+    modi: "drun";
+    show-icons: true;
+    display-drun: " ";
+    drun-display-format: "{name}";
+    matching: "fuzzy";
+    scroll-method: 0;
+    disable-history: false;
 }
 
+/* ===================== */
+/* Global Variables */
+/* ===================== */
+* {
+    bg: #0c0e14;
+    bg-alt: #ffffffff;
+    bg-hover: #3f4b74ff;   /* <-- hover color (no lighten()) */
+    fg: #cdd6f4;
+    accent: #89b4fa;
+
+    background-color: transparent;
+    text-color: @fg;
+    font: "JetBrainsMono Nerd Font 11";
+}
+
+/* ===================== */
+/* Window */
+/* ===================== */
 window {
-    background-color: #3E517A;
+    width: 650px;
+    background-color: @bg;
+    border: 1px;
+    border-color: @accent;
     border-radius: 12px;
+}
+
+/* ===================== */
+/* Main Layout */
+/* ===================== */
+mainbox {
     padding: 16px;
-    width: 800px;
+    spacing: 10px;
+    children: [ inputbar, listview ];
 }
 
+/* ===================== */
+/* Search Bar */
+/* ===================== */
 inputbar {
-    padding: 10px 18px;
-    background-color: rgba(128, 150, 190, 0.2);
-    border-radius: 10px;
-    margin-bottom: 12px;
-}
-
-textbox {
-    background-color: transparent;
-    caret-color: #8AE1FC;
-}
-
-entry {
-    background-color: transparent;
-    color: #A8E0FF;
-}
-
-element {
-    padding: 10px 18px;
-    border-radius: 10px;
-    background-color: rgba(128, 150, 190, 0.15);
-    margin: 4px 0;
-}
-
-element selected {
-    background-color: #8AE1FC;
-    color: #3E517A;
-    font-weight: bold;
-}
-
-element-icon {
-    size: 24px;
-    padding: 0 8px;
-}
-
-element-text {
-    padding: 0 8px;
+    background-color: @bg-alt;
+    children: [ prompt, entry ];
+    border-radius: 8px;
 }
 
 prompt {
-    color: #8AE1FC;
-    font-weight: bold;
-} */
+    padding: 10px;
+    background-color: @accent;
+    text-color: @bg;
+    border-radius: 8px;
+}
+
+entry {
+    padding: 10px;
+    placeholder: "Search Apps...";
+}
+
+/* ===================== */
+/* App List */
+/* ===================== */
+listview {
+    lines: 6;
+    columns: 1;
+    fixed-height: false;
+    spacing: 9px;
+    background-color: transparent;
+}
+
+/* ===================== */
+/* List Items */
+/* ===================== */
+element {
+    padding: 12px;
+    spacing: 12px;
+    border-radius: 8px;
+    background-color: @bg-alt;
+}
+
+/* Normal (fixes white box) */
+element normal {
+    background-color: @bg-alt;
+    text-color: @fg;
+}
+
+/* Hover (fixed) */
+element active {
+    background-color: @bg-hover;
+    text-color: @fg;
+}
+
+/* Selected */
+element selected {
+    background-color: @accent;
+    text-color: @bg;
+}
+
+/* Urgent (optional) */
+element urgent {
+    background-color: #f38ba8;
+    text-color: @bg;
+}
+
+element-icon {
+    size: 26px;
+}
+
+element-text {
+    vertical-align: 0.5;
+    background-color: transparent;
+}

@@ -1,0 +1,78 @@
+#!/bin/sh
+
+ROFI_THEME="$HOME/.config/rofi/config.rasi"
+TMP="/tmp/wifi-menu"
+IFACE="wlp0s20f3"
+
+connected_ssid=$(nmcli -t -f ACTIVE,SSID dev wifi | awk -F: '$1=="yes"{print $2}')
+saved_ssids=$(nmcli -t -f NAME,TYPE con show | awk -F: '$2=="802-11-wireless"{print $1}')
+
+nmcli device wifi rescan 2>/dev/null
+
+
+> "$TMP"
+
+# Connected actions
+if [ -n "$connected_ssid" ]; then
+    echo "󰖪 Disconnect ($connected_ssid)" >> "$TMP"
+    echo "󰗽 Forget ($connected_ssid)" >> "$TMP"
+    echo " Rescan networks" >> "$TMP"
+    echo "────────────────────" >> "$TMP"
+fi
+
+# List networks
+nmcli -t -f IN-USE,SSID,SECURITY,SIGNAL dev wifi list | \
+awk -F: '$2!=""' | while read -r line; do
+    inuse=$(echo "$line" | cut -d: -f1)
+    ssid=$(echo "$line" | cut -d: -f2)
+    sig=$(echo "$line" | cut -d: -f4)
+
+    if [ "$ssid" = "$connected_ssid" ]; then
+        echo " $ssid [$sig%]" >> "$TMP"
+    elif echo "$saved_ssids" | grep -Fxq "$ssid"; then
+        echo " $ssid (saved) [$sig%]" >> "$TMP"
+    else
+        echo " $ssid [$sig%]" >> "$TMP"
+    fi
+done
+
+choice=$(cat "$TMP" | rofi -dmenu -i -p "Wi-Fi" -theme "$ROFI_THEME")
+rm -f "$TMP"
+
+[ -z "$choice" ] && exit 0
+
+# Disconnect
+if echo "$choice" | grep -q "^󰖪 Disconnect"; then
+    nmcli dev disconnect "$IFACE"
+    notify-send -t 1500 "Wi-Fi" "Disconnected from $connected_ssid"
+    exit 0
+fi
+
+# Forget
+if echo "$choice" | grep -q "^󰗽 Forget"; then
+    nmcli con delete "$connected_ssid"
+    notify-send -t 1500 "Wi-Fi" "Forgot network $connected_ssid"
+    exit 0
+fi
+
+# Rescan
+if echo "$choice" | grep -q "Rescan"; then
+    exec "$0"
+fi
+
+# Extract SSID
+ssid=$(echo "$choice" | sed 's/^[^ ]* //' | sed 's/ (saved)//' | sed 's/ \[.*//')
+
+# Saved network
+if echo "$saved_ssids" | grep -Fxq "$ssid"; then
+    nmcli con up "$ssid" && notify-send -t 1200 "Wi-Fi" "Connected to $ssid"
+    exit 0
+fi
+
+# New network → password prompt
+password=$(rofi -dmenu -password -p "Password for $ssid" -theme "$ROFI_THEME")
+[ -z "$password" ] && exit 0
+
+nmcli dev wifi connect "$ssid" password "$password" \
+    && notify-send -t 1200 "Wi-Fi" "Connected to $ssid" \
+    || notify-send -t 1500 "Wi-Fi" "Failed to connect to $ssid"
