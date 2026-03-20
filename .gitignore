@@ -26,3 +26,17 @@ node_modules/
 # Vim swap files
 *.swp
 *.swo
+
+# System
+*.tar.gz
+*.zip
+*.backup
+*.bak
+*.old
+*.old.*
+
+# Secrets — never commit these
+*id_rsa*
+*id_ed25519*
+*.key
+*.pem
