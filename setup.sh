@@ -12,7 +12,7 @@ DOTFILES_DIR="$HOME/dotfiles-setup"
 echo -e "${BLUE}"
 echo "╔═══════════════════════════════════════╗"
 echo "║   Anmol's Dotfiles Setup Script       ║"
-echo "║   Arch Linux + Hyprland + Noctalia    ║"
+echo "║   Parrot OS + Hyprland + Noctalia     ║"
 echo "╚═══════════════════════════════════════╝"
 echo -e "${NC}"
 
