@@ -1,0 +1,14 @@
+# Daily Applications
+# Browsers, media, productivity
+
+brave-browser
+obsidian
+localsend
+vlc
+smplayer
+thunderbird
+telegram-desktop
+discord
+flameshot
+pavucontrol
+pulseaudio-utils
