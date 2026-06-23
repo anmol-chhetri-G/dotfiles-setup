@@ -1,0 +1,10 @@
+# Development Tools
+
+neovim
+python3
+python3-pip
+go
+nodejs
+npm
+rust
+fish

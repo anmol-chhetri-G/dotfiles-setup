@@ -1,0 +1,11 @@
+# Core System Tools
+
+git
+curl
+wget
+unzip
+unrar
+p7zip
+htop
+tmux
+tealdeer
