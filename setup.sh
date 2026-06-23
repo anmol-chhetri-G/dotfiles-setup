@@ -22,7 +22,7 @@ BACKUP_DIR="$HOME/.config-backup-$(date +%Y%m%d_%H%M%S)"
 mkdir -p "$BACKUP_DIR"
 
 # Backup common dirs and shell files
-for item in rofi noctalia hypr nvim .zshrc; do
+for item in rofi noctalia hypr nvim .zshrc fish; do
     if [ -e "$HOME/$item" ]; then
         cp -rf "$HOME/$item" "$BACKUP_DIR/"
     elif [ -e "$HOME/.config/$item" ]; then
@@ -50,6 +50,10 @@ ln -sfn "$DOTFILES_DIR/configs/rofi" "$HOME/.config/rofi"
 echo "Configuring Shell..."
 ln -sf "$DOTFILES_DIR/configs/shell/.zshrc" "$HOME/.zshrc"
 
+# Link Fish config
+echo "Configuring Fish..."
+mkdir -p "$HOME/.config/fish"
+ln -sf "$DOTFILES_DIR/.config/fish/config.fish" "$HOME/.config/fish/config.fish"
 # Link Wallpapers
 echo "Setting up wallpapers..."
 mkdir -p "$HOME/Pictures"
