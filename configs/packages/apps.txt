@@ -1,0 +1,12 @@
+# Daily Applications
+
+brave-browser
+obsidian
+localsend
+vlc
+smplayer
+thunderbird
+telegram-desktop
+discord
+flameshot
+pavucontrol

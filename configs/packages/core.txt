@@ -1,0 +1,12 @@
+# Core System Tools
+
+git
+build-essential
+curl
+wget
+unzip
+unrar
+p7zip
+htop
+tmux
+tealdeer

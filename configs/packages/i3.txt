@@ -1,0 +1,14 @@
+# i3 Display Stack
+# Window manager + bar + launcher + utilities
+
+i3
+polybar
+rofi
+kitty
+alacritty
+dunst
+feh
+picom
+redshift
+autotiling
+python3-i3ipc
