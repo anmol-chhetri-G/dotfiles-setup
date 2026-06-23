@@ -1,0 +1,20 @@
+# Hyprland Display Stack
+# Window manager + bar + launcher + utilities
+
+hyprland
+waybar
+rofi
+kitty
+alacritty
+dunst
+swww
+wlsunset
+hyprlock
+hyprpaper
+wl-clipboard
+cliphist
+grim
+slurp
+swaybg
+thunar
+nwg-clipman

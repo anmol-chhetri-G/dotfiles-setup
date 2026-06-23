@@ -1,0 +1,13 @@
+# Core System Tools
+# Essential packages for any system
+
+git
+base-devel
+curl
+wget
+unzip
+unrar
+p7zip
+htop
+tmux
+tealdeer

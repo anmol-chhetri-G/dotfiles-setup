@@ -3,29 +3,33 @@
 # Application Installation
 # =========================================
 
-install_main_apps() {
-    local apps_file="$SCRIPT_DIR/config/main-apps.txt"
+install_from_list() {
+    local list_name="$1"
+    local apps_file="$DOTFILES_DIR/configs/packages/${list_name}.txt"
     
     if [[ ! -f "$apps_file" ]]; then
-        warn "Apps list not found at $apps_file"
+        warn "Package list not found at $apps_file"
         return 1
     fi
     
-    info "Installing main applications..."
+    info "Installing packages from $list_name..."
     
-    # Update package list for Debian-based systems
     if [[ "$PM" == "apt" ]]; then
         sudo apt update
     fi
     
-    # Read apps from file and install
     while IFS= read -r pkg || [[ -n "$pkg" ]]; do
-        # Skip empty lines and comments
         [[ -z "$pkg" || "$pkg" =~ ^# ]] && continue
-        
         info "Installing $pkg..."
-        eval $INSTALL_CMD "$pkg" 2>/dev/null || warn "Failed to install $pkg (may not be available)"
+        eval $INSTALL_CMD "$pkg" 2>/dev/null || warn "Failed to install $pkg"
     done < "$apps_file"
     
-    success "Application installation complete"
+    success "$list_name installation complete"
+}
+
+install_main_apps() {
+    install_from_list "core"
+    install_from_list "hyprland"
+    install_from_list "dev"
+    install_from_list "apps"
 }

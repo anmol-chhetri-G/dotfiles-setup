@@ -1,0 +1,12 @@
+# Development Tools
+# Languages, runtimes, editors
+
+neovim
+python
+python-pip
+go
+nodejs
+npm
+yarn
+rust
+fish
