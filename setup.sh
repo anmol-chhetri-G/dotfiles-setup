@@ -16,6 +16,31 @@ echo "║   Arch Linux + Hyprland + Noctalia    ║"
 echo "╚═══════════════════════════════════════╝"
 echo -e "${NC}"
 
+# Choose install mode: symlink or independent copy
+echo -e "${YELLOW}Install mode:${NC}"
+echo "  1) Symlinks (keep configs in sync with dotfiles repo)"
+echo "  2) Independent copies (free to edit, no auto-sync)"
+while true; do
+    read -p "Choose [1/2] (default 1): " MODE
+    MODE="${MODE:-1}"
+    if [ "$MODE" = "1" ] || [ "$MODE" = "2" ]; then
+        break
+    fi
+    echo -e "${RED}Invalid choice, enter 1 or 2.${NC}"
+done
+
+install_path() {
+    local src="$1" dst="$2"
+    mkdir -p "$(dirname "$dst")"
+    if [ "$MODE" = "2" ]; then
+        cp -rf "$src" "$dst"
+        echo -e "${GREEN}[COPY]${NC} $dst"
+    else
+        ln -sfn "$src" "$dst"
+        echo -e "${GREEN}[LINK]${NC} $dst -> $src"
+    fi
+}
+
 # 1. Backup Existing Configs
 echo -e "${YELLOW}[BACKUP]${NC} Creating backup of existing configs..."
 BACKUP_DIR="$HOME/.config-backup-$(date +%Y%m%d_%H%M%S)"
@@ -38,27 +63,29 @@ echo -e "${YELLOW}[INSTALL]${NC} Linking configurations..."
 mkdir -p "$HOME/.config"
 mkdir -p "$HOME/.local/bin"
 
-# Link Noctalia
+# Install Noctalia
 echo "Configuring Noctalia..."
-ln -sfn "$DOTFILES_DIR/configs/noctalia" "$HOME/.config/noctalia"
+install_path "$DOTFILES_DIR/configs/noctalia" "$HOME/.config/noctalia"
 
-# Link Rofi
+# Install Rofi
 echo "Configuring Rofi..."
-ln -sfn "$DOTFILES_DIR/configs/rofi" "$HOME/.config/rofi"
+install_path "$DOTFILES_DIR/configs/rofi" "$HOME/.config/rofi"
 
-# Link Shell (.zshrc)
+# Install Shell (.zshrc)
 echo "Configuring Shell..."
-ln -sf "$DOTFILES_DIR/configs/shell/.zshrc" "$HOME/.zshrc"
+install_path "$DOTFILES_DIR/configs/shell/.zshrc" "$HOME/.zshrc"
 
-# Link Fish config
+# Install Fish config
 echo "Configuring Fish..."
-mkdir -p "$HOME/.config/fish"
-ln -sf "$DOTFILES_DIR/.config/fish/config.fish" "$HOME/.config/fish/config.fish"
+install_path "$DOTFILES_DIR/.config/fish/config.fish" "$HOME/.config/fish/config.fish"
 
-# Link Wallpapers
+# Install Niri
+echo "Configuring Niri..."
+install_path "$DOTFILES_DIR/configs/arch/niri/config.kdl" "$HOME/.config/niri/config.kdl"
+
+# Install Wallpapers
 echo "Setting up wallpapers..."
-mkdir -p "$HOME/Pictures"
-ln -sfn "$DOTFILES_DIR/Pictures/wallpapers" "$HOME/Pictures/wallpapers"
+install_path "$DOTFILES_DIR/Pictures/wallpapers" "$HOME/Pictures/wallpapers"
 
 # 3. Permissions
 echo -e "${YELLOW}[POST-INSTALL]${NC} Setting permissions..."
